@@ -1,0 +1,7 @@
+/* ===== Career Toolkit 配置 ===== */
+
+var CATEGORIES = ["JavaScript基础","TypeScript","CSS","HTML","React","Vue","浏览器原理","网络协议","HTTP","性能优化","安全","算法-排序","算法-搜索","算法-动态规划","算法-树","数据结构","设计模式","Node.js","工程化","Git","数据库","操作系统","手写题","场景题","智力题","自我介绍","项目经验","微前端","小程序","Docker","CI/CD","系统设计","DDIA"];
+
+var CAT_ICONS = {"JavaScript基础":"📜","TypeScript":"🔷","CSS":"🎨","HTML":"🏗️","React":"⚛️","Vue":"🍃","浏览器原理":"🌍","网络协议":"🔗","HTTP":"📡","性能优化":"⚡","安全":"🔒","算法-排序":"📊","算法-搜索":"🔍","算法-动态规划":"🎯","算法-树":"🌲","数据结构":"📦","设计模式":"🏗️","Node.js":"🟢","工程化":"⚙️","Git":"📋","数据库":"🗄️","操作系统":"💻","手写题":"✍️","场景题":"🎪","智力题":"🧩","自我介绍":"🗣️","项目经验":"💼","微前端":"🧩","小程序":"📱","Docker":"🐳","CI/CD":"🔄","系统设计":"🏛️"};
+
+var RADAR_SKILLS = [{"name":"JavaScript","key":"js"},{"name":"TypeScript","key":"ts"},{"name":"React","key":"react"},{"name":"Vue","key":"vue"},{"name":"CSS/HTML","key":"css"},{"name":"Node.js","key":"node"},{"name":"算法","key":"algo"},{"name":"工程化","key":"eng"},{"name":"性能优化","key":"perf"},{"name":"系统设计","key":"sys"},{"name":"数据库","key":"db"},{"name":"网络","key":"net"},{"name":"安全","key":"sec"},{"name":"设计模式","key":"pattern"},{"name":"浏览器","key":"browser"},{"name":"Git","key":"git"},{"name":"操作系统","key":"os"},{"name":"手写题","key":"code"},{"name":"场景题","key":"scene"},{"name":"微前端","key":"micro"},{"name":"小程序","key":"miniapp"},{"name":"Docker","key":"docker"},{"name":"CI/CD","key":"cicd"},{"name":"智力题","key":"puzzle"}];

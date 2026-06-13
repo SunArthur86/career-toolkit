@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sunarthur86.github.io/career-toolkit/sitemap.xml

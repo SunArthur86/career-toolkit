@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Career Toolkit — 面试突击 · 技术雷达 · 算法动画</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎯%3C/text%3E%3C/svg%3E">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0071e3">
+<meta name="description" content="面试突击 · 技术雷达 · 算法动画 — 离线可用的前端面试备考工具">
+<meta name="keywords" content="面试,前端,算法,技术雷达,模拟面试,面试题,闪卡,间隔重复,SM-2,Career Toolkit">
+<meta name="author" content="SunArthur86">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Career Toolkit — 面试突击 · 技术雷达 · 算法动画">
+<meta property="og:description" content="545题面试备考 · 技术雷达 · 算法动画 · 模拟面试 · 闪卡间隔重复 · 离线可用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:url" content="https://sunarthur86.github.io/career-toolkit/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Career Toolkit — 面试突击 · 技术雷达 · 算法动画">
+<meta name="twitter:description" content="545题面试备考 · 技术雷达 · 算法动画 · 模拟面试 · 闪卡间隔重复">
+<link rel="canonical" href="https://sunarthur86.github.io/career-toolkit/">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Career Toolkit","description":"面试突击 · 技术雷达 · 算法动画 — 离线可用的前端面试备考工具","url":"https://sunarthur86.github.io/career-toolkit/","author":{"@type":"Person","name":"SunArthur86"},"applicationCategory":"EducationApplication"}
+</script>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/mock-interview.css">
+</head>
+<body>
+<a href="#main-content" class="skip-nav">跳到主要内容</a>
+<div id="toast-container"></div>
+
+<!-- 加载动画 -->
+<div class="loader-overlay" id="loader-overlay">
+  <div class="loader-content">
+    <div class="loader-ring"></div>
+    <p class="loader-text">加载题库中...</p>
+  </div>
+</div>
+
+<!-- 磨砂导航栏 -->
+<nav class="nav-bar" role="navigation" aria-label="主导航">
+  <div class="nav-inner">
+    <h1 class="nav-logo">Career Toolkit</h1>
+    <div class="nav-tabs" role="tablist">
+      <button class="nav-tab active" data-tab="interview" role="tab" aria-selected="true">📝 面试突击</button>
+      <button class="nav-tab" data-tab="radar" role="tab" aria-selected="false">📡 技术雷达</button>
+      <button class="nav-tab" data-tab="algorithm" role="tab" aria-selected="false">🎬 算法动画</button>
+      <button class="theme-toggle" id="theme-toggle" title="切换深色模式">🌙</button>
+    </div>
+  </div>
+</nav>
+
+<main class="main-content" id="main-content">
+
+  <!-- ==================== 面试突击 ==================== -->
+  <section id="tab-interview" class="tab-panel active" role="tabpanel" aria-label="面试突击">
+    <!-- 进度环 + 学习进度 -->
+    <div class="progress-bar-wrap">
+      <div class="progress-ring-container">
+        <svg class="progress-ring" width="64" height="64">
+          <circle class="progress-ring-bg" cx="32" cy="32" r="26" fill="none" stroke-width="6"/>
+          <circle class="progress-ring-fill" id="progress-ring" cx="32" cy="32" r="26" fill="none" stroke-width="6" stroke-linecap="round" transform="rotate(-90 32 32)"/>
+        </svg>
+        <span class="progress-ring-text" id="progress-ring-text">0%</span>
+      </div>
+      <div class="progress-info">
+        <h2 class="section-title" style="font-size:18px;margin:0;">学习进度</h2>
+        <div class="progress-bar"><div class="progress-bar-fill" id="progress-fill" style="width:0%"></div></div>
+        <div class="progress-text">
+          <span id="progress-detail">已掌握 0 / 0 题</span>
+          <span id="progress-pct">0%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 顶部统计 -->
+    <div class="stats-bar">
+      <div class="stat-card">
+        <span class="stat-num" id="stat-total">0</span>
+        <span class="stat-label">总题数</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num" id="stat-done">0</span>
+        <span class="stat-label">已掌握</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num" id="stat-bookmark">0</span>
+        <span class="stat-label">已收藏</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num" id="stat-today">0</span>
+        <span class="stat-label">今日复习</span>
+      </div>
+      <div class="stat-card stat-card-accent">
+        <span class="stat-num" id="stat-due">0</span>
+        <span class="stat-label">待复习</span>
+      </div>
+    </div>
+
+    <!-- 学习计划 + 间隔重复面板 -->
+    <div class="plan-sr-row">
+      <div class="study-plan-card">
+        <div class="study-plan-left">
+          <div class="streak-badge" id="streak-badge">🔥 <span id="streak-count">0</span>天连续</div>
+          <div class="daily-goal">
+            <span>每日目标：</span>
+            <select id="daily-goal-select">
+              <option value="5">5题</option>
+              <option value="10" selected>10题</option>
+              <option value="15">15题</option>
+              <option value="20">20题</option>
+              <option value="30">30题</option>
+            </select>
+            <span class="daily-progress">今日 <strong id="daily-done">0</strong>/<strong id="daily-target">10</strong></span>
+          </div>
+          <div class="daily-bar"><div class="daily-bar-fill" id="daily-bar-fill"></div></div>
+          <div class="streak-hint" id="streak-hint" style="display:none;font-size:13px;color:var(--text2);margin-top:6px;"></div>
+        </div>
+        <button class="btn-sm" id="btn-shortcuts" title="快捷键帮助">⌨️ 快捷键</button>
+      </div>
+      <!-- 间隔重复面板 -->
+      <div class="sr-panel-card">
+        <div class="sr-panel-header">
+          <span class="sr-icon">🧠</span>
+          <span class="sr-title">间隔重复 (SM-2)</span>
+        </div>
+        <div class="sr-stats-row">
+          <div class="sr-stat-item"><span class="sr-stat-num" id="sr-due-count">0</span><span class="sr-stat-label">待复习</span></div>
+          <div class="sr-stat-item"><span class="sr-stat-num" id="sr-learned-count">0</span><span class="sr-stat-label">已学习</span></div>
+          <div class="sr-stat-item"><span class="sr-stat-num" id="sr-total-count">0</span><span class="sr-stat-label">总卡片</span></div>
+        </div>
+        <div class="sr-actions">
+          <button class="btn-sm btn-accent" id="btn-flash-review">🔁 复习卡片</button>
+          <button class="btn-sm" id="btn-flash-random">🎲 随机练习</button>
+          <button class="btn-sm" id="btn-flash-weak">⚠️ 错题本</button>
+          <button class="btn-sm" id="btn-flash-bookmark">⭐ 收藏练习</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 搜索 + 筛选 -->
+    <div class="filter-bar">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="search-input" placeholder="搜索题目、关键词或答案内容...">
+      </div>
+      <div class="filter-chips" id="category-filters"></div>
+      <div class="filter-actions">
+        <button class="btn-sm" id="btn-bookmark-filter">⭐ 仅收藏</button>
+        <button class="btn-sm" id="btn-difficulty">难度 ▾</button>
+        <button class="btn-sm btn-accent" id="btn-random">🎲 随机一题</button>
+        <button class="btn-sm" id="btn-mock-interview" style="background:linear-gradient(135deg,#ff6b6b,#ee5a24);color:#fff;border:none;">🎯 模拟面试</button>
+        <button class="btn-sm" id="btn-export">📤 导出</button>
+      </div>
+    </div>
+
+    <!-- 题目列表 -->
+    <div class="question-list" id="question-list"></div>
+
+    <!-- 题目详情弹窗 -->
+    <div class="modal-overlay" id="question-modal">
+      <div class="modal-card">
+        <button class="modal-close" id="modal-close">✕</button>
+        <div class="modal-header">
+          <span class="modal-category" id="modal-category"></span>
+          <span class="modal-difficulty" id="modal-difficulty"></span>
+        </div>
+        <h2 class="modal-title" id="modal-title"></h2>
+        <div class="modal-body" id="modal-body"></div>
+        <!-- SR 信息条 -->
+        <div class="modal-sr-info" id="modal-sr-info" style="display:none;"></div>
+        <!-- 评分按钮 -->
+        <div class="modal-rate-actions">
+          <button class="modal-rate-btn" data-quality="0">😵</button>
+          <button class="modal-rate-btn" data-quality="1">😕</button>
+          <button class="modal-rate-btn" data-quality="2">😅</button>
+          <button class="modal-rate-btn" data-quality="3">🤔</button>
+          <button class="modal-rate-btn" data-quality="4">✅</button>
+          <button class="modal-rate-btn" data-quality="5">🎯</button>
+        </div>
+        <!-- 个人笔记 -->
+        <div class="modal-note-section">
+          <label class="modal-note-label" for="modal-note-area">📝 个人笔记 <span class="modal-note-hint">(自动保存，快捷键 N)</span></label>
+          <textarea class="modal-note-area" id="modal-note-area" placeholder="写下你的理解、易错点、记忆口诀..." rows="3"></textarea>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-sm" id="btn-master">✅ 已掌握</button>
+          <button class="btn-sm" id="btn-fav">⭐ 收藏</button>
+          <button class="btn-sm" id="btn-prev">← 上一题</button>
+          <button class="btn-sm" id="btn-next">下一题 →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 技术雷达 ==================== -->
+  <section id="tab-radar" class="tab-panel" role="tabpanel" aria-label="技术雷达">
+    <div class="radar-layout">
+      <div class="radar-chart-wrap">
+        <canvas id="radar-canvas" width="600" height="600"></canvas>
+      </div>
+      <div class="radar-panel">
+        <h2 class="section-title">技术能力评估</h2>
+        <p class="section-desc">拖动滑块评估你的掌握程度 (0-100)</p>
+        <div class="skill-sliders" id="skill-sliders"></div>
+        <div class="radar-actions">
+          <button class="btn-sm btn-accent" id="btn-radar-save">💾 保存评估</button>
+          <button class="btn-sm" id="btn-radar-reset">🔄 重置</button>
+          <button class="btn-sm" id="btn-radar-export">📊 导出报告</button>
+        </div>
+        <div class="radar-report" id="radar-report" style="display:none">
+          <h3>📊 能力分析</h3>
+          <div id="radar-report-content"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 算法动画 ==================== -->
+  <section id="tab-algorithm" class="tab-panel" role="tabpanel" aria-label="算法动画">
+    <div class="algo-layout">
+      <div class="algo-sidebar">
+        <h2 class="section-title">算法选择</h2>
+        <div class="algo-list" id="algo-list">
+          <div class="algo-group-label">排序算法</div>
+          <button class="algo-btn active" data-algo="bubble">🫧 冒泡排序</button>
+          <button class="algo-btn" data-algo="selection">👆 选择排序</button>
+          <button class="algo-btn" data-algo="insert">📥 插入排序</button>
+          <button class="algo-btn" data-algo="shell">🔩 希尔排序</button>
+          <button class="algo-btn" data-algo="quick">⚡ 快速排序</button>
+          <button class="algo-btn" data-algo="merge">🔗 归并排序</button>
+          <button class="algo-btn" data-algo="heap">🏔️ 堆排序</button>
+          <button class="algo-btn" data-algo="counting">🔢 计数排序</button>
+          <div class="algo-group-label">查找算法</div>
+          <button class="algo-btn" data-algo="binarysearch">🔍 二分查找</button>
+          <div class="algo-group-label">图算法</div>
+          <button class="algo-btn" data-algo="bfs">🌊 BFS 广搜</button>
+          <button class="algo-btn" data-algo="dfs">🏔️ DFS 深搜</button>
+        </div>
+      </div>
+      <div class="algo-main">
+        <div class="algo-controls">
+          <button class="btn-sm btn-accent" id="btn-algo-play">▶ 开始</button>
+          <button class="btn-sm" id="btn-algo-pause">⏸ 暂停</button>
+          <button class="btn-sm" id="btn-algo-reset">🔄 重置</button>
+          <label class="speed-label">速度 <input type="range" id="algo-speed" min="1" max="10" value="5"><span id="algo-speed-val">5</span></label>
+          <label class="size-label">数量 <input type="range" id="algo-size" min="10" max="60" value="30"></label>
+        </div>
+        <div class="algo-canvas-wrap">
+          <canvas id="algo-canvas" width="900" height="500"></canvas>
+        </div>
+        <div class="algo-info">
+          <div class="algo-complexity" id="algo-complexity">
+            <span>时间复杂度: <strong id="algo-time">—</strong></span>
+            <span>空间复杂度: <strong id="algo-space">—</strong></span>
+            <span>比较次数: <strong id="algo-compares">0</strong></span>
+            <span>交换次数: <strong id="algo-swaps">0</strong></span>
+            <span id="algo-status" class="algo-status"></span>
+          </div>
+          <div class="algo-description" id="algo-description">
+            选择左侧算法，点击"开始"观看动画演示
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- 闪卡全屏遮罩 -->
+<div class="flashcard-overlay" id="flashcard-overlay">
+  <div class="flashcard-header">
+    <div class="flash-progress-bar"><div class="flash-progress-fill" id="flash-progress"></div></div>
+    <div class="flash-header-info">
+      <span id="flash-counter">1 / 10</span>
+      <button class="btn-sm" id="flash-exit">✕ 退出</button>
+    </div>
+  </div>
+  <div class="flashcard-scene">
+    <div class="flashcard" id="flash-card">
+      <div class="flashcard-front">
+        <span class="flash-cat">分类</span>
+        <span class="flash-diff medium">medium</span>
+        <p class="flash-question">问题内容</p>
+        <p class="flash-hint">按空格键或点击翻转查看答案</p>
+      </div>
+      <div class="flashcard-back">
+        <!-- 答案内容 -->
+      </div>
+    </div>
+  </div>
+  <div class="flashcard-actions">
+    <button class="btn-sm" id="flash-prev">← 上一题</button>
+    <button class="btn-sm btn-accent flash-btn-flip" id="flash-flip">🃏 翻转卡片</button>
+    <button class="btn-sm" id="flash-next-skip">跳过 →</button>
+  </div>
+  <div class="flash-actions-rate">
+    <button class="flash-rate-btn" data-quality="0"><span class="rate-emoji">😵</span><span class="rate-label">完全不会</span></button>
+    <button class="flash-rate-btn" data-quality="1"><span class="rate-emoji">😕</span><span class="rate-label">看到才想起</span></button>
+    <button class="flash-rate-btn" data-quality="2"><span class="rate-emoji">😅</span><span class="rate-label">困难</span></button>
+    <button class="flash-rate-btn" data-quality="3"><span class="rate-emoji">🤔</span><span class="rate-label">正确但慢</span></button>
+    <button class="flash-rate-btn" data-quality="4"><span class="rate-emoji">✅</span><span class="rate-label">正确</span></button>
+    <button class="flash-rate-btn" data-quality="5"><span class="rate-emoji">🎯</span><span class="rate-label">完美</span></button>
+  </div>
+</div>
+
+<!-- 模拟面试全屏遮罩 -->
+<div class="mock-overlay" id="mock-overlay"></div>
+
+<button class="back-to-top" id="back-to-top">↑</button>
+
+<nav class="mobile-tab-bar" id="mobile-tab-bar">
+  <button class="mobile-tab active" data-tab="interview">📝<span>面试</span></button>
+  <button class="mobile-tab" data-tab="radar">📡<span>雷达</span></button>
+  <button class="mobile-tab" data-tab="algorithm">🎬<span>算法</span></button>
+</nav>
+
+<!-- 导出弹窗 -->
+<div class="export-overlay" id="export-overlay">
+  <div class="export-card">
+    <button class="modal-close" id="export-close">✕</button>
+    <h2>📤 导出学习数据</h2>
+    <pre id="export-content"></pre>
+    <div style="margin-top:16px;display:flex;gap:8px;">
+        <button class="btn-sm btn-accent" id="btn-export-copy">📋 复制到剪贴板</button>
+        <button class="btn-sm" id="btn-export-download">💾 下载JSON</button>
+        <button class="btn-sm" id="btn-import-data">📥 导入数据</button>
+        <input type="file" id="import-file-input" accept=".json" style="display:none">
+    </div>
+  </div>
+</div>
+
+<!-- 快捷键帮助弹窗 -->
+<div class="export-overlay" id="shortcuts-overlay">
+  <div class="export-card" style="max-width:480px;">
+    <button class="modal-close" id="shortcuts-close">✕</button>
+    <h2>⌨️ 快捷键</h2>
+    <div class="shortcut-list">
+      <div class="shortcut-row"><kbd>←</kbd><kbd>→</kbd><span>上/下一题（弹窗内）</span></div>
+      <div class="shortcut-row"><kbd>J</kbd><kbd>K</kbd><span>列表中向下/向上导航</span></div>
+      <div class="shortcut-row"><kbd>Enter</kbd><span>打开选中题目</span></div>
+      <div class="shortcut-row"><kbd>Esc</kbd><span>关闭弹窗</span></div>
+      <div class="shortcut-row"><kbd>R</kbd><span>随机一题</span></div>
+      <div class="shortcut-row"><kbd>F</kbd><span>收藏/取消</span></div>
+      <div class="shortcut-row"><kbd>M</kbd><span>标记掌握/取消</span></div>
+      <div class="shortcut-row"><kbd>N</kbd><span>聚焦笔记编辑器</span></div>
+      <div class="shortcut-row"><kbd>/</kbd><span>聚焦搜索</span></div>
+      <div class="shortcut-row"><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><span>切换Tab</span></div>
+      <div class="shortcut-row"><kbd>D</kbd><span>深色模式</span></div>
+      <div class="shortcut-row"><kbd>空格</kbd><span>闪卡翻转</span></div>
+      <div class="shortcut-row"><kbd>0</kbd>-<kbd>5</kbd><span>闪卡评分</span></div>
+      <div class="shortcut-row"><kbd>?</kbd><span>快捷键帮助</span></div>
+    </div>
+  </div>
+</div>
+
+<script src="js/safe-ls.js"></script>
+<script src="js/config.js"></script>
+<script src="js/data.js"></script>
+<script src="js/spaced-repetition.js"></script>
+<script src="js/mock-interview.js"></script>
+<script src="js/interview.js"></script>
+<script src="js/radar.js"></script>
+<script src="js/algorithm.js"></script>
+<script src="js/app.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js').catch(function(){});
+}
+</script>
+</body>
+</html>

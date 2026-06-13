@@ -1,0 +1,16 @@
+{
+  "name": "Career Toolkit",
+  "short_name": "CareerKit",
+  "description": "面试突击 · 技术雷达 · 算法动画 — 离线可用的前端面试备考工具",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#fafafa",
+  "theme_color": "#0071e3",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
